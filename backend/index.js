@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: ["http://localhost:5173","https://newtodo-lxvl.vercel.app"],
+    origin: ["https://newtodo-lxvl.vercel.app","http://localhost:5173"],
     credentials: true,
   }),
 );
