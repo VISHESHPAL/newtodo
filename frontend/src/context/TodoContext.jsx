@@ -41,17 +41,20 @@ export const TodoProvider = ({ children }) => {
     try {
       const res = await api.patch(`/todo/${id}`, data);
 
-      const updatedTodo = res.data.updatedTodo;
+      const updatedTodo = res.data.updatedTodo || res.data.todo || res.data;
+
+      if (!updatedTodo?._id) {
+        throw new Error("Invalid update response");
+      }
 
       setTodos((prev) =>
-        prev.map((todo) =>
-          todo._id === id ? updatedTodo : todo
-        )
+        prev.map((todo) => (todo._id === id ? updatedTodo : todo)),
       );
 
       toast.success("Todo updated ✨");
     } catch (error) {
       toast.error("Failed to update todo ❌");
+      console.error("Update error:", error);
     }
   };
 
@@ -64,14 +67,10 @@ export const TodoProvider = ({ children }) => {
       const updatedTodo = res.data.updatedTodo;
 
       setTodos((prev) =>
-        prev.map((todo) =>
-          todo._id === id ? updatedTodo : todo
-        )
+        prev.map((todo) => (todo._id === id ? updatedTodo : todo)),
       );
 
-      toast.success(
-        completed ? "Marked incomplete 🔄" : "Marked complete ✅"
-      );
+      toast.success(completed ? "Marked incomplete 🔄" : "Marked complete ✅");
     } catch (error) {
       toast.error("Failed to change status ❌");
     }
@@ -81,9 +80,7 @@ export const TodoProvider = ({ children }) => {
     try {
       await api.delete(`/todo/${id}`);
 
-      setTodos((prev) =>
-        prev.filter((todo) => todo._id !== id)
-      );
+      setTodos((prev) => prev.filter((todo) => todo._id !== id));
 
       toast.success("Todo deleted 🗑️");
     } catch (error) {

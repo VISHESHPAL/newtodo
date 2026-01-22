@@ -22,14 +22,11 @@ const Home = () => {
 
   const saveEdit = async () => {
     if (!editTitle.trim()) return;
-    try {
-      await updateTodo(editId, { title: editTitle });
-      toast.success("Todo updated ✨");
-      setEditId(null);
-      setEditTitle("");
-    } catch {
-      toast.error("Failed to update todo ❌");
-    }
+
+    await updateTodo(editId, { title: editTitle });
+
+    setEditId(null);
+    setEditTitle("");
   };
 
   return (
