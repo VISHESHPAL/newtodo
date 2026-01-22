@@ -26,18 +26,18 @@ export const TodoProvider = ({ children }) => {
     setTodos((prev) => prev.map((t) => (t._id === todo._id ? res.data : t)));
   };
 
-  const deleteTodo = async (todo) =>{
-
+  const deleteTodo = async (todo) => {
     await api.delete(`/todo/${todo._id}`);
-    setTodos((prev) => prev.filter((t) => t._id !== todo._id))
+    setTodos((prev) => prev.filter((t) => t._id !== todo._id));
+  };
 
-  }
-
-  return(
-    <TodoContext.Provider value={{ fetchTodos , todos , loading , deleteTodo , toggleTodo , addTodo}}>
-        {children}
+  return (
+    <TodoContext.Provider
+      value={{ fetchTodos, todos, loading, deleteTodo, toggleTodo, addTodo }}
+    >
+      {children}
     </TodoContext.Provider>
-  )
+  );
 };
 
-export const useTodo = () => useContext(TodoContext)
+export const useTodo = () => useContext(TodoContext);
