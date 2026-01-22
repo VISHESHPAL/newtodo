@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await api.get("/user/is-auth");
       console.log(res);
-      setUser(res.data.user); // doubt
+      setUser(res.data.user); 
       setIsAuth(true);
     } catch (error) {
       setUser(null);
@@ -26,34 +26,29 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  const login = async(data) =>{
-
+  const login = async (data) => {
     await api.post("/user/login", data);
     await checkAuth();
+  };
 
-  }
+  const register = async (data) => {
+    await api.post("/user/register", data);
+    await checkAuth();
+  };
 
-  const register = async (data) =>{
-      await api.post("/user/register", data)
-      await checkAuth()
-  }
-
-  const  logout = async() =>{
-     
-    await api.post("/user/logout")
-    setUser(null)
-    setIsAuth(false)
-
-  }
-
+  const logout = async () => {
+    await api.post("/user/logout");
+    setUser(null);
+    setIsAuth(false);
+  };
 
   return (
-     <AuthContext.Provider value={{login , logout ,  register , user , isAuth , loading}}>
-         {children}
-     </AuthContext.Provider>
-  )
+    <AuthContext.Provider
+      value={{ login, logout, register, user, isAuth, loading }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-
-export const useAuth = () => useContext(AuthContext)
-
+export const useAuth = () => useContext(AuthContext);
