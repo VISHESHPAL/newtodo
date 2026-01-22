@@ -55,12 +55,12 @@ export const deleteTodo = async (req, res) => {
 
 export const getAllTodo = async (req, res) => {
   try {
-    const allTodo = await Todo.find({user: req.user.id});
+    const todos = await Todo.find({user: req.user.id});
 
     return res.status(200).json({
       success: true,
       message: "Todos fetched successfully!",
-      allTodo,
+      todos,
     });
   } catch (error) {
     console.log(error);
